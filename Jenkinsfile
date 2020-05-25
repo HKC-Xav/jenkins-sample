@@ -17,6 +17,13 @@ node () {
 			} 
  		} 
 	}
+	
+	stage ('App-IC - SonarQube analysis') {
+		withSonarQubeEnv('Sonar') {
+			bat 'mvn sonar:sonar'
+		}
+	}
+	
 	stage ('App-IC - Post build actions') {
 /*
 Please note this is a direct conversion of post-build actions. 
@@ -26,6 +33,6 @@ A logic review is suggested.
 		// Mailer notification
 		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'hkc.xavier@gmail.com', sendToIndividuals: false])
  
+		}
 	}
-}
 }
